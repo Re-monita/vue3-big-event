@@ -12,6 +12,7 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   rules: {
+    // 禁用格式化插件
     'prettier/prettier': [
       'warn',
       {
