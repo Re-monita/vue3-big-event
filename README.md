@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-# vue3-big-event
-学习Vue3的项目啦
-=======
 # vue3-big-event-admin
 
 This template should help get you started developing with Vue 3 in Vite.
@@ -37,4 +33,3 @@ pnpm build
 ```sh
 pnpm lint
 ```
->>>>>>> ba7d6fb (添加了内容)
