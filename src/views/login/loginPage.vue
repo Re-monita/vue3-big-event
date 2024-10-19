@@ -3,7 +3,7 @@
     <el-row class="login-page">
       <el-col :span="12" class="bg"></el-col>
       <el-col :span="6" :offset="3" class="form">
-        <el-form v-if="isRegister" :model="formModel" :rules="rules">
+        <el-form v-if="isRegister" :model="formModel" :rules="rules" ref="form">
           <el-form-item> <h1>注册</h1> </el-form-item>
           <el-form-item prop="username">
             <el-input
@@ -29,7 +29,11 @@
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" auto-insert-space class="button"
+            <el-button
+              type="primary"
+              auto-insert-space
+              class="button"
+              @click="register"
               >注册</el-button
             >
           </el-form-item>
@@ -39,16 +43,21 @@
             >
           </el-form-item>
         </el-form>
-        <el-form v-else>
+        <el-form v-else ref="form" :model="formModel" :rules="rules">
           <el-form-item> <h1>登录</h1> </el-form-item>
-          <el-form-item>
-            <el-input :prefix-icon="User" placeholder="请输入用户名"></el-input>
+          <el-form-item prop="username">
+            <el-input
+              :prefix-icon="User"
+              placeholder="请输入用户名"
+              v-model="formModel.username"
+            ></el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="password">
             <el-input
               :prefix-icon="Lock"
               placeholder="请输入密码"
               type="password"
+              v-model="formModel.password"
             ></el-input>
           </el-form-item>
           <el-form-item>
@@ -58,7 +67,11 @@
             </div>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" auto-insert-space class="button"
+            <el-button
+              type="primary"
+              auto-insert-space
+              class="button"
+              @click="login"
               >登录</el-button
             >
           </el-form-item>
@@ -75,13 +88,20 @@
 
 <script setup>
 import { User, Lock } from '@element-plus/icons-vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { userRegisterService, userLoginService } from '@/api/user'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores'
+
 const isRegister = ref(true)
 const formModel = ref({
   username: '',
   password: '',
   repassword: ''
 })
+const form = ref()
+const router = useRouter()
+const userStore = useUserStore()
 
 const rules = {
   username: [
@@ -115,6 +135,30 @@ const rules = {
     }
   ]
 }
+
+const register = async () => {
+  await form.value.validate()
+  await userRegisterService(formModel.value)
+  ElMessage.success('注册成功')
+  // 切换到登录
+  isRegister.value = false
+}
+
+const login = async () => {
+  await form.value.validate()
+  const res = await userLoginService(formModel.value)
+  userStore.setToken(res.data.token)
+  router.push('/')
+  console.log('开始登录', res)
+}
+
+watch(isRegister, () => {
+  formModel.value = {
+    username: '',
+    password: '',
+    repassword: ''
+  }
+})
 </script>
 
 <style scoped>

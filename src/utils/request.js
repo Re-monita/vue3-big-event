@@ -1,13 +1,13 @@
-import axios from 'axios'
 import { useUserStore } from '@/stores'
-import ElMessage from 'element-plus'
-import { router } from '@/router'
-const baseUrl = 'http://big-event-vue-api-t.itheima.net'
+import axios from 'axios'
+import router from '@/router'
+import { ElMessage } from 'element-plus'
+const baseURL = 'http://big-event-vue-api-t.itheima.net'
 
 const instance = axios.create({
   // 1. 基础地址，超时时间
-  baseUrl,
-  timeout: 10000
+  baseURL,
+  timeout: 100000
 })
 
 instance.interceptors.request.use(
@@ -15,7 +15,7 @@ instance.interceptors.request.use(
     // 2. 携带token
     const userStore = useUserStore()
     if (userStore.token) {
-      return (config.headers.Authorization = userStore.token)
+      config.headers.Authorization = userStore.token
     }
     return config
   },
@@ -39,9 +39,10 @@ instance.interceptors.response.use(
     }
     // 错误的默认情况
     ElMessage.error(err.response.data.message || '服务异常')
+    // ElMessage.error(err.response.data.message || '服务异常')
     return Promise.reject(err)
   }
 )
 
 export default instance
-export { baseUrl }
+export { baseURL }
