@@ -1,89 +1,87 @@
 <template>
-  <div>
-    <el-row class="login-page">
-      <el-col :span="12" class="bg"></el-col>
-      <el-col :span="6" :offset="3" class="form">
-        <el-form v-if="isRegister" :model="formModel" :rules="rules" ref="form">
-          <el-form-item> <h1>注册</h1> </el-form-item>
-          <el-form-item prop="username">
-            <el-input
-              v-model="formModel.username"
-              :prefix-icon="User"
-              placeholder="请输入用户名"
-            ></el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input
-              v-model="formModel.password"
-              :prefix-icon="Lock"
-              placeholder="请输入密码"
-              type="password"
-            ></el-input>
-          </el-form-item>
-          <el-form-item prop="repassword">
-            <el-input
-              v-model="formModel.repassword"
-              :prefix-icon="Lock"
-              placeholder="请再次输入密码"
-              type="password"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              type="primary"
-              auto-insert-space
-              class="button"
-              @click="register"
-              >注册</el-button
-            >
-          </el-form-item>
-          <el-form-item>
-            <el-link :underline="false" type="info" @click="isRegister = false"
-              >← 返回</el-link
-            >
-          </el-form-item>
-        </el-form>
-        <el-form v-else ref="form" :model="formModel" :rules="rules">
-          <el-form-item> <h1>登录</h1> </el-form-item>
-          <el-form-item prop="username">
-            <el-input
-              :prefix-icon="User"
-              placeholder="请输入用户名"
-              v-model="formModel.username"
-            ></el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input
-              :prefix-icon="Lock"
-              placeholder="请输入密码"
-              type="password"
-              v-model="formModel.password"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <div class="flex">
-              <el-checkbox value="记住我" name="remember"> 记住我 </el-checkbox>
-              <el-link type="primary" :underline="false">忘记密码?</el-link>
-            </div>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              type="primary"
-              auto-insert-space
-              class="button"
-              @click="login"
-              >登录</el-button
-            >
-          </el-form-item>
-          <el-form-item class="flex">
-            <el-link type="info" :underline="false" @click="isRegister = true"
-              >注册 →</el-link
-            >
-          </el-form-item>
-        </el-form>
-      </el-col>
-    </el-row>
-  </div>
+  <el-row class="login-page">
+    <el-col :span="12" class="bg"></el-col>
+    <el-col :span="6" :offset="3" class="form">
+      <el-form v-if="isRegister" :model="formModel" :rules="rules" ref="form">
+        <el-form-item> <h1>注册</h1> </el-form-item>
+        <el-form-item prop="username">
+          <el-input
+            v-model="formModel.username"
+            :prefix-icon="User"
+            placeholder="请输入用户名"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input
+            v-model="formModel.password"
+            :prefix-icon="Lock"
+            placeholder="请输入密码"
+            type="password"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="repassword">
+          <el-input
+            v-model="formModel.repassword"
+            :prefix-icon="Lock"
+            placeholder="请再次输入密码"
+            type="password"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            type="primary"
+            auto-insert-space
+            class="button"
+            @click="register"
+            >注册</el-button
+          >
+        </el-form-item>
+        <el-form-item>
+          <el-link :underline="false" type="info" @click="isRegister = false"
+            >← 返回</el-link
+          >
+        </el-form-item>
+      </el-form>
+      <el-form v-else ref="form" :model="formModel" :rules="rules">
+        <el-form-item> <h1>登录</h1> </el-form-item>
+        <el-form-item prop="username">
+          <el-input
+            :prefix-icon="User"
+            placeholder="请输入用户名"
+            v-model="formModel.username"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input
+            :prefix-icon="Lock"
+            placeholder="请输入密码"
+            type="password"
+            v-model="formModel.password"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <div class="flex">
+            <el-checkbox value="记住我" name="remember"> 记住我 </el-checkbox>
+            <el-link type="primary" :underline="false">忘记密码?</el-link>
+          </div>
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            type="primary"
+            auto-insert-space
+            class="button"
+            @click="login"
+            >登录</el-button
+          >
+        </el-form-item>
+        <el-form-item class="flex">
+          <el-link type="info" :underline="false" @click="isRegister = true"
+            >注册 →</el-link
+          >
+        </el-form-item>
+      </el-form>
+    </el-col>
+  </el-row>
 </template>
 
 <script setup>
