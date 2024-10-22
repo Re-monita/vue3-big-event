@@ -39,10 +39,14 @@
     </el-aside>
     <el-container>
       <el-header class="el-header">
-        <div>用户：<strong>pumumindu2</strong></div>
-        <el-dropdown placement="bottom-end">
+        <div>
+          用户：<strong>{{
+            userStore.user.nickname || userStore.user.username
+          }}</strong>
+        </div>
+        <el-dropdown placement="bottom-end" @command="handleCommand">
           <span class="el-dropdown__box">
-            <el-avatar :src="avatar"></el-avatar>
+            <el-avatar :src="userStore.user.user_pic || avatar"></el-avatar>
             <el-icon class="el-icon"><CaretBottom /></el-icon>
           </span>
           <template #dropdown>
@@ -79,9 +83,42 @@ import {
   User,
   Crop,
   EditPen,
-  SwitchButton
+  SwitchButton,
+  CaretBottom
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/default.png'
+import { useUserStore } from '@/stores'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const userStore = useUserStore()
+onMounted(() => {
+  userStore.getUser()
+})
+
+const handleCommand = async (key) => {
+  if (key === 'logout') {
+    // 增加确认操作
+    // 需要对取消和确认做处理，否则会有警告
+    // 或者使用.then和.catch对确认和取消做处理
+    try {
+      await ElMessageBox.confirm('你确认退出大事件吗？', '温馨提示', {
+        type: 'warning',
+        confirmButtonText: '确认',
+        cancelButtonText: '取消'
+      })
+      // 退出操作
+      userStore.removeToken()
+      userStore.setUser({})
+      router.push('/login')
+    } catch {
+      console.log('取消退出')
+    }
+  } else {
+    // 跳转操作
+    router.push(`/user/${key}`)
+  }
+}
 </script>
 
 <style lang="scss" scoped>

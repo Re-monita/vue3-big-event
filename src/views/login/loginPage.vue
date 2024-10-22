@@ -91,7 +91,7 @@ import { userRegisterService, userLoginService } from '@/api/user'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores'
 
-const isRegister = ref(true)
+const isRegister = ref(false)
 const formModel = ref({
   username: '',
   password: '',

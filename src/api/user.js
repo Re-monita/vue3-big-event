@@ -5,3 +5,5 @@ export const userRegisterService = ({ username, password, repassword }) =>
 
 export const userLoginService = ({ username, password }) =>
   request.post('api/login', { username, password })
+
+export const userInfoService = () => request.get('/my/userinfo')
