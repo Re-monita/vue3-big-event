@@ -11,9 +11,7 @@ const getChannelList = async () => {
   loading.value = true
   const res = await artGetChannelsService()
   channelList.value = res.data.data
-  // channelList.value = []
   loading.value = false
-  console.log(channelList.value)
 }
 const onEditChannel = (row) => {
   dialog.value.open(row)

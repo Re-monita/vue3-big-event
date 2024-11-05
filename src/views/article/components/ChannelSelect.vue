@@ -1,29 +1,37 @@
 <script setup>
 import { artGetChannelsService } from '@/api/article'
 import { ref } from 'vue'
-defineProps({})
+// defineProps({
+//   modelValue: {
+//     type: [Number, String]
+//   }
+// })
+
+// const emit = defineEmits(['update:modelValue'])
+
+const model = defineModel()
 
 const channelList = ref([])
 
 const getChannelList = async () => {
   const res = await artGetChannelsService()
-  console.log(res)
-
   channelList.value = res.data.data
-  console.log(channelList.value)
 }
 
 getChannelList()
 </script>
 <template>
-  <el-form-item label="文章分类：">
-    <el-select style="width: 300px">
-      <el-option
-        v-for="channel in channelList"
-        :key="channel.id"
-        :label="channel.cate_alias"
-        :value="channel.cate_name"
-      ></el-option>
-    </el-select>
-  </el-form-item>
+  <el-select style="width: 300px" v-model="model">
+    <!-- <el-select
+    style="width: 300px"
+    :modelValue="modelValue"
+    @update:modelValue="emit('update:modelValue', $event)"
+  > -->
+    <el-option
+      v-for="channel in channelList"
+      :key="channel.id"
+      :label="channel.cate_name"
+      :value="channel.id"
+    ></el-option>
+  </el-select>
 </template>
