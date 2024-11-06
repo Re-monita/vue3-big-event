@@ -1,13 +1,13 @@
 <template>
   <page-container title="文章管理">
     <template #extra>
-      <el-button type="primary">发布文章</el-button>
+      <el-button type="primary" @click="onAddArticle">添加文章</el-button>
     </template>
 
     <!-- 表单部分 -->
     <el-form inline>
       <el-form-item label="文章分类：">
-        <channel-select v-model="params.cate_id"></channel-select>
+        <channel-select v-model="params.cate_id" width="300px"></channel-select>
       </el-form-item>
       <el-form-item label="发布状态：">
         <el-select style="width: 300px" v-model="params.state">
@@ -54,13 +54,15 @@
       v-model:current-page="params.pagenum"
       v-model:page-size="params.pagesize"
       :page-sizes="[2, 3, 5, 10]"
-      :background="background"
+      background
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       style="justify-content: flex-end; margin-top: 20px"
     />
+    <!-- 添加抽屉 -->
+    <article-edit ref="articleEditRef"></article-edit>
   </page-container>
 </template>
 
@@ -70,6 +72,7 @@ import { Edit, Delete } from '@element-plus/icons-vue'
 import ChannelSelect from './components/ChannelSelect.vue'
 import { artGetListService } from '@/api/article'
 import { formatTime } from '@/utils/format'
+import ArticleEdit from './components/ArticleEdit.vue'
 const params = ref({
   pagenum: 1,
   pagesize: 5,
@@ -80,6 +83,7 @@ const params = ref({
 const articleList = ref([])
 const total = ref(0)
 const loading = ref(false)
+const articleEditRef = ref()
 
 const getArticalList = async () => {
   loading.value = true
@@ -88,6 +92,16 @@ const getArticalList = async () => {
   total.value = res.data.total
   loading.value = false
 }
+
+const onAddArticle = () => {
+  articleEditRef.value.open()
+}
+
+const onEditArtical = (row) => {
+  articleEditRef.value.open(row)
+}
+
+const onDeleteArtical = () => {}
 
 const onSearch = () => {
   params.value.pagenum = 1

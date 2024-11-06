@@ -8,6 +8,11 @@ import { ref } from 'vue'
 // })
 
 // const emit = defineEmits(['update:modelValue'])
+defineProps({
+  width: {
+    type: String
+  }
+})
 
 const model = defineModel()
 
@@ -21,7 +26,7 @@ const getChannelList = async () => {
 getChannelList()
 </script>
 <template>
-  <el-select style="width: 300px" v-model="model">
+  <el-select v-model="model" :style="{ width }">
     <!-- <el-select
     style="width: 300px"
     :modelValue="modelValue"
