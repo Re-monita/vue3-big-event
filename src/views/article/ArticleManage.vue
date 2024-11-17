@@ -62,7 +62,7 @@
       style="justify-content: flex-end; margin-top: 20px"
     />
     <!-- 添加抽屉 -->
-    <article-edit ref="articleEditRef"></article-edit>
+    <article-edit ref="articleEditRef" @success="onSuccess"></article-edit>
   </page-container>
 </template>
 
@@ -70,7 +70,7 @@
 import { ref } from 'vue'
 import { Edit, Delete } from '@element-plus/icons-vue'
 import ChannelSelect from './components/ChannelSelect.vue'
-import { artGetListService } from '@/api/article'
+import { artGetListService, artDeleteService } from '@/api/article'
 import { formatTime } from '@/utils/format'
 import ArticleEdit from './components/ArticleEdit.vue'
 const params = ref({
@@ -94,14 +94,23 @@ const getArticalList = async () => {
 }
 
 const onAddArticle = () => {
-  articleEditRef.value.open()
+  articleEditRef.value.open({})
 }
 
 const onEditArtical = (row) => {
   articleEditRef.value.open(row)
 }
 
-const onDeleteArtical = () => {}
+const onDeleteArtical = async (row) => {
+  await ElMessageBox.confirm('是否删除该文章？', '提示', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
+  await artDeleteService(row.id)
+  ElMessage.success('删除成功')
+  getArticalList()
+}
 
 const onSearch = () => {
   params.value.pagenum = 1
@@ -127,6 +136,14 @@ const handleCurrentChange = (val) => {
 }
 
 getArticalList()
+
+const onSuccess = (type) => {
+  if (type === 'add') {
+    const lastPage = Math.ceil((total.value + 1) / params.value.pagesize)
+    params.value.pagenum = lastPage
+  }
+  getArticalList()
+}
 </script>
 
 <style lang="scss" scoped></style>
